@@ -1,24 +1,12 @@
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
-const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt, GraphQLNonNull } = require('graphql')
-
-const { pokemon } = require('./data/pokemon.json')
-// const { trainers } = require('./data/trainers.json')
+const { GraphQLSchema, GraphQLObjectType, GraphQLList } = require('graphql')
+const { pokemon, PokemonType } = require('./data')
 
 const app = express()
 
-const PokemonType = new GraphQLObjectType({
-  name: 'Pokemon',
-  description: 'A single pokemon trained by a trainer',
-  fields: () => ({ 
-    id: { type: GraphQLNonNull(GraphQLInt) },
-    name: { type: GraphQLNonNull(GraphQLString)},
-    trainerId: { type: GraphQLNonNull(GraphQLInt) }
-  })
-})
-
-const RootQueryType = new GraphQLObjectType({
-  name: 'Query',
+const query = new GraphQLObjectType({
+  name: 'RootQuery',
   description: 'Root query',
   fields: () => ({
     pokemon: {
@@ -28,7 +16,7 @@ const RootQueryType = new GraphQLObjectType({
     }
   })
 })
-const schema = new GraphQLSchema({ query: RootQueryType })
+const schema = new GraphQLSchema({ query })
 
 app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 app.listen(5000, () => console.log('Server running'))
