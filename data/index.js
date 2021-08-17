@@ -1,7 +1,10 @@
 const { pokemon } = require('./pokemon.json')
-const { PokemonType } = require('./models')
+const { trainers } = require('./trainers.json')
+const { PokemonType, TrainerType } = require('./models')
 
 module.exports = {
   pokemon,
-  PokemonType
+  trainers,
+  PokemonType,
+  TrainerType
 }

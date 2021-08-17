@@ -1,4 +1,5 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull } = require('graphql')
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull, GraphQLList } = require('graphql')
+const { pokemon } = require('./pokemon.json')
 const { trainers } = require('./trainers.json')
 
 const TrainerType = new GraphQLObjectType({
@@ -6,7 +7,13 @@ const TrainerType = new GraphQLObjectType({
   description: 'A single trainer that trains pokemon',
   fields: () => ({ 
     id: { type: GraphQLNonNull(GraphQLInt) },
-    name: { type: GraphQLNonNull(GraphQLString)}
+    name: { type: GraphQLNonNull(GraphQLString)},
+    pokemon: {
+      type: GraphQLList(PokemonType),
+      resolve: (trainer) => {
+        return pokemon.filter(pokemon => pokemon.trainerId === trainer.id)
+      }
+    }
   })
 })
 
@@ -26,4 +33,4 @@ const PokemonType = new GraphQLObjectType({
   })
 })
 
-module.exports = { PokemonType }
+module.exports = { PokemonType, TrainerType }
