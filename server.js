@@ -1,12 +1,32 @@
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
-const { GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLInt } = require('graphql')
+const { GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLInt, GraphQLNonNull, GraphQLString } = require('graphql')
 const { pokemon, trainers, PokemonType, TrainerType } = require('./data')
 
 const app = express()
 
-const query = new GraphQLObjectType({
-  name: 'RootQuery',
+const RootMutationType = new GraphQLObjectType({
+  name: 'Mutation',
+  description: 'Root mutation',
+  fields: () => ({
+    addPokemon: {
+      type: PokemonType,
+      description: 'Add a single pokemon',
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+        trainerId: { type: GraphQLNonNull(GraphQLInt) }
+      },
+      resolve: (parent, { name, trainerId }) => {
+        const newPokemon = { id: pokemon.length++, name, trainerId }
+        pokemon.push(newPokemon)
+        return newPokemon
+      }
+    }
+  })
+})
+
+const RootQueryType = new GraphQLObjectType({
+  name: 'Query',
   description: 'Root query',
   fields: () => ({
     pokemon: {
@@ -33,7 +53,11 @@ const query = new GraphQLObjectType({
     }
   })
 })
-const schema = new GraphQLSchema({ query })
+
+const schema = new GraphQLSchema({ 
+  mutation: RootMutationType,
+  query: RootQueryType
+})
 
 app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 app.listen(5000, () => console.log('Server running'))
