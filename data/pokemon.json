@@ -1,0 +1,54 @@
+{
+  "pokemon": [
+    {
+      "id": "1",
+      "name": "Pikachu",
+      "trainerId": "1"
+    },
+    {
+      "id": "2",
+      "name": "Charmander",
+      "trainerId": "1"
+    },
+    {
+      "id": "3",
+      "name": "Squirtle",
+      "trainerId": "2"
+    },
+    {
+      "id": "4",
+      "name": "Psyduck",
+      "trainerId": "2"
+    },
+    {
+      "id": "5",
+      "name": "Onix",
+      "trainerId": "3"
+    },
+    {
+      "id": "6",
+      "name": "Geodude",
+      "trainerId": "3"
+    },
+    {
+      "id": "7",
+      "name": "Pidgeotto",
+      "trainerId": "4"
+    },
+    {
+      "id": "8",
+      "name": "Blastoise",
+      "trainerId": "4"
+    },
+    {
+      "id": "9",
+      "name": "Meowth",
+      "trainerId": "5"
+    },
+    {
+      "id": "10",
+      "name": "Koffing",
+      "trainerId": "5"
+    }
+  ]
+}

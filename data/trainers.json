@@ -1,0 +1,24 @@
+{
+  "trainers": [
+    {
+      "id": "1",
+      "name": "Ash"
+    },
+    {
+      "id": "2",
+      "name": "Misty"
+    },
+    {
+      "id": "3",
+      "name": "Brock"
+    },
+    {
+      "id": "4",
+      "name": "Gary"
+    },
+    {
+      "id": "5",
+      "name": "Jessie & James"
+    }
+  ]
+}
