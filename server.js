@@ -1,63 +1,15 @@
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
-const { GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLInt, GraphQLNonNull, GraphQLString } = require('graphql')
-const { pokemon, trainers, PokemonType, TrainerType } = require('./data')
+const { GraphQLSchema } = require('graphql')
+
+const { 
+  RootMutationType: mutation, 
+  RootQueryType: query 
+} = require('./root')
 
 const app = express()
 
-const RootMutationType = new GraphQLObjectType({
-  name: 'Mutation',
-  description: 'Root mutation',
-  fields: () => ({
-    addPokemon: {
-      type: PokemonType,
-      description: 'Add a single pokemon',
-      args: {
-        name: { type: GraphQLNonNull(GraphQLString) },
-        trainerId: { type: GraphQLNonNull(GraphQLInt) }
-      },
-      resolve: (parent, { name, trainerId }) => {
-        const newPokemon = { id: pokemon.length++, name, trainerId }
-        pokemon.push(newPokemon)
-        return newPokemon
-      }
-    }
-  })
-})
-
-const RootQueryType = new GraphQLObjectType({
-  name: 'Query',
-  description: 'Root query',
-  fields: () => ({
-    pokemon: {
-      type: new GraphQLList(PokemonType),
-      description: 'List of All Pokemon',
-      resolve: () => pokemon
-    },
-    sgPokemon: {
-      type: PokemonType,
-      description: 'A single Pokemon',
-      args: { id: { type: GraphQLInt } },
-      resolve: (parent, args) => pokemon.find(pokemon => pokemon.id == args.id)
-    },
-    trainer: {
-      type: TrainerType,
-      description: 'A single Trainer',
-      args: { id: { type: GraphQLInt } },
-      resolve: (parent, args) => trainers.find(trainer => trainer.id == args.id)
-    },
-    trainers: {
-      type: new GraphQLList(TrainerType),
-      description: 'List of All Trainers',
-      resolve: () => trainers
-    }
-  })
-})
-
-const schema = new GraphQLSchema({ 
-  mutation: RootMutationType,
-  query: RootQueryType
-})
+const schema = new GraphQLSchema({ mutation, query })
 
 app.use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 app.listen(5000, () => console.log('Server running'))
